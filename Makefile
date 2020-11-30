@@ -20,7 +20,7 @@ SDL_LIBS != pkg-config --libs sdl
 
 LIB_VERSION = 1.0
 
-CFLAGS ?= -O3 -Wall -fPIC
+CFLAGS ?= -O3 -Wall -fPIC -march=armv7-a
 QUIRC_CFLAGS = -Ilib $(CFLAGS) $(SDL_CFLAGS)
 LIB_OBJ = \
     lib/decode.o \
@@ -62,13 +62,13 @@ libquirc.so.$(LIB_VERSION): $(LIB_OBJ)
 .c.o:
 	$(CC) $(QUIRC_CFLAGS) -o $@ -c $<
 
-install: libquirc.a libquirc.so.$(LIB_VERSION) quirc-demo quirc-scanner
+install: libquirc.a libquirc.so.$(LIB_VERSION) # quirc-demo quirc-scanner
 	install -o root -g root -m 0644 lib/quirc.h $(DESTDIR)$(PREFIX)/include
 	install -o root -g root -m 0644 libquirc.a $(DESTDIR)$(PREFIX)/lib
 	install -o root -g root -m 0755 libquirc.so.$(LIB_VERSION) \
 		$(DESTDIR)$(PREFIX)/lib
-	install -o root -g root -m 0755 quirc-demo $(DESTDIR)$(PREFIX)/bin
-	install -o root -g root -m 0755 quirc-scanner $(DESTDIR)$(PREFIX)/bin
+#	install -o root -g root -m 0755 quirc-demo $(DESTDIR)$(PREFIX)/bin
+#	install -o root -g root -m 0755 quirc-scanner $(DESTDIR)$(PREFIX)/bin
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/include/quirc.h
